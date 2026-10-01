@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Szótanuló</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app">
+
+  <section id="screen-home" class="screen" aria-labelledby="home-title">
+    <h1 id="home-title">Szótanuló</h1>
+    <p class="sub">Angol szavak, napi 10 feladat. Téma: <strong>Állatok, ételek, tárgyak</strong></p>
+    <div class="stats">
+      <div class="stat"><span class="icon" aria-hidden="true">🔥</span><span id="home-streak" class="num">0</span><span class="lbl">napos sorozat</span><span id="home-streak-status" class="streak-status" data-testid="streak-status" hidden></span></div>
+      <div class="stat"><span class="icon" aria-hidden="true">⭐</span><span id="home-xp" class="num">0</span><span class="lbl">XP összesen</span></div>
+    </div>
+    <div class="goal">
+      <div class="goal-head">
+        <span>🎯 Napi cél</span>
+        <label class="sr" for="goal">Napi XP-cél</label>
+        <select id="goal"><option value="100">100 XP</option><option value="200">200 XP</option><option value="300">300 XP</option></select>
+      </div>
+      <div class="goal-row">
+        <div id="goal-bar" class="progress" role="progressbar" aria-label="Napi cél haladása" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="goal-fill"></i></div>
+        <span id="goal-text" class="goal-text" data-testid="goal-text">0/200 XP</span>
+      </div>
+      <p id="goal-save" class="banner bad" role="alert" hidden>⚠️ A beállítás nem menthető ezen az eszközön, az oldal bezárása után visszaáll.</p>
+    </div>
+    <button id="start" class="primary" type="button">Lecke indítása</button>
+  </section>
+
+  <section id="screen-lesson" class="screen" hidden aria-label="Lecke">
+    <header class="topbar">
+      <button id="quit" class="ghost" type="button" aria-label="Kilépés a leckéből">✕</button>
+      <div id="progress" class="progress" role="progressbar" aria-label="Kérdések haladása" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-fill"></i></div>
+      <div class="hearts" aria-live="polite"><span aria-hidden="true">❤️</span><span id="lives" data-testid="lives">3</span><span class="sr">élet</span></div>
+      <div class="xp"><span aria-hidden="true">⭐</span><span id="xp" data-testid="xp">0</span><span class="sr">XP</span></div>
+    </header>
+
+    <p id="progress-label" class="progress-label" data-testid="progress-label"></p>
+
+    <div id="quit-confirm" class="confirm" role="alertdialog" aria-modal="true" aria-labelledby="quit-q" hidden>
+      <p id="quit-q">Kilépsz? A lecke elvész.</p>
+      <div class="confirm-btns">
+        <button id="quit-stay" class="primary" type="button">Maradok</button>
+        <button id="quit-leave" class="secondary" type="button">Kilépek</button>
+      </div>
+    </div>
+
+    <div id="note" class="note" role="status" hidden></div>
+
+    <div id="task" class="task" data-type="">
+      <h2 id="task-title" class="task-title" tabindex="-1"></h2>
+      <div id="task-visual" class="visual" aria-hidden="true"></div>
+      <button id="speak" class="speak" type="button" hidden>🔊 Meghallgatom</button>
+      <div id="options" class="options" role="group" aria-labelledby="task-title"></div>
+      <form id="type-form" class="type-form" hidden>
+        <label for="type-input" class="sr">Fordítás magyarul</label>
+        <input id="type-input" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Írd be magyarul">
+      </form>
+    </div>
+
+    <footer id="bar" class="bar">
+      <div id="feedback" class="feedback" role="status" aria-live="polite" data-state="idle"></div>
+      <button id="check" class="primary" type="button" disabled>Ellenőrzés</button>
+    </footer>
+  </section>
+
+  <section id="screen-end" class="screen" hidden aria-labelledby="end-title">
+    <h1 id="end-title"></h1>
+    <p id="end-text" class="sub"></p>
+    <p id="end-xp-box" class="xp-big"><span aria-hidden="true">⭐</span> <span id="end-xp" data-testid="end-xp" aria-hidden="true">0</span> <span aria-hidden="true">XP</span><span id="end-xp-sr" class="sr"></span></p>
+    <p id="end-goal" class="banner ok" role="status" hidden>🎯 A napi cél megvan!</p>
+    <div id="end-goal-row" class="goal-card">
+      <p id="end-streak" class="goal-line" data-testid="end-streak"></p>
+      <p id="end-goal-left" class="goal-line" data-testid="end-goal-left"></p>
+      <div class="goal-row"><div id="end-goal-bar" class="progress" role="progressbar" aria-label="Napi cél haladása" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="end-goal-fill"></i></div><span id="end-goal-text" class="goal-text" data-testid="end-goal-text"></span></div>
+    </div>
+    <p id="end-save" class="banner bad" role="alert" hidden>⚠️ A haladás nem menthető ezen az eszközön. A pontjaid csak addig maradnak meg, amíg be nem zárod az oldalt.</p>
+    <dl id="end-stats" class="summary"></dl>
+    <section id="practice" class="practice" aria-labelledby="practice-title">
+      <h2 id="practice-title">Ezekkel találkozol újra</h2>
+      <p id="practice-perfect" class="banner ok" hidden>✅ Hibátlan! Nincs mit átnézni.</p>
+      <ul id="practice-list" class="practice-list" data-testid="practice-list"></ul>
+      <p id="practice-note" class="practice-note" data-testid="practice-note">A következő leckében ezek újra előkerülnek.</p>
+    </section>
+    <button id="again" class="primary" type="button"></button>
+    <button id="home" class="secondary" type="button">Főoldal</button>
+  </section>
+
+</main>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>
